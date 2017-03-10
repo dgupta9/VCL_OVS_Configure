@@ -1,0 +1,2 @@
+# VCL_with_ovs
+This project involves configuring several KVM hypervisors within VCL to use Open vSwitch and either the VXLAN or Geneve tunnelling protocol to establish an SDN overlay network among the VCL nodes. Additionally, adding OpenFlow control to the SDN overlay can provide more complex control of the network. VCL sandboxes will be used to effectively establish a small VCL cluster running within the NCSU production VCL system
