@@ -1,0 +1,6 @@
+<network>
+<name>ovs_public</name>
+<forward mode='bridge'/>
+<bridge name='ovs_br1'/>
+<virtualport type='openvswitch'/>
+</network>

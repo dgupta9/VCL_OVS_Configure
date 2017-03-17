@@ -17,7 +17,7 @@ rpmbuild -bb --nocheck ./openvswitch-2.5.2/rhel/openvswitch_no_kmod.spec
 #virsh net-autostart --disable default
 
 # Install openvswitch from the rpm
-yum localinstall ~/rpmbuild/RPMS/x86_64/openvswitch-2.5.2-1.x86_64.rpm 
+yum localinstall -y ~/rpmbuild/RPMS/x86_64/openvswitch-2.5.2-1.x86_64.rpm 
 
 # Start openvswitch
 systemctl start openvswitch.service
@@ -26,5 +26,15 @@ systemctl status openvswitch.service
 ovs-vsctl -V
 ovs-vsctl show
 
-# Add ovs bridge
-ovs-vsctl add-br br0
+# Add ovs private and public bridges
+ovs-vsctl add-br ovs_br0
+ovs-vsctl add-br ovs_br1
+
+# Define ovs private and public networks
+virsh net-define ./ovs_private.xml
+virsh net-start ovs_private
+virsh net-autostart ovs_private
+
+virsh net-define ./ovs_public.xml
+virsh net-start ovs_public
+virsh net-autostart ovs_public
