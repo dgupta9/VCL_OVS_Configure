@@ -27,3 +27,8 @@ sed "s/\bprivate\b/ovs_private/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 sed "s/\bvirbr0\b/ovs_br0/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 virsh undefine managementnode
 virsh create /tmp/mn.xml
+
+# Handle dnsmasq. See config files in /var/lib/libvirt/dnsmasq/
+ps -ef | grep "dnsmasq/private" | grep -v grep | awk '{print $2}' | xargs kill
+ifconfig virbr0 0 down
+ifconfig ovs_br0 192.168.100.10 up
