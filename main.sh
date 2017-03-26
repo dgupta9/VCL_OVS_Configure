@@ -2,3 +2,4 @@
 
 ./install_ovs.sh
 ./set_ovs_nw.sh
+./cleanup.sh
