@@ -5,9 +5,3 @@ echo "DEVICE=eth0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "IPADDR=192.168.100.1" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "NM_CONTROLLED=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-echo "NM_CONTROLLED=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
-systemctl restart network
-
-#echo "ListenAddress 192.168.200.1" >> /etc/ssh/sshd_config
-#systemctl restart sshd
-#systemctl status sshd -l
