@@ -26,10 +26,11 @@ EOF
 until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "running"; do sleep 1 ; done
 virsh dumpxml managementnode > /tmp/mn.xml
 virsh shutdown managementnode
+until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 1 ; done
 sed "s/\bprivate\b/ovs_private/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 sed "s/\bvirbr0\b/ovs_br0/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 virsh undefine managementnode
-until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 1 ; done
+sleep 1
 virsh create /tmp/mn.xml
 
 # Handle dnsmasq. See config files in /var/lib/libvirt/dnsmasq/
