@@ -23,12 +23,13 @@ EOF
 # Need to add code to make eth0 IP as static
 
 #sed  '/192.168.100.1 mn/c\192.168.200.1 mn' /etc/hosts > tmp && mv -f tmp /etc/hosts
+until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "running"; do sleep 1 ; done
 virsh dumpxml managementnode > /tmp/mn.xml
 virsh shutdown managementnode
 sed "s/\bprivate\b/ovs_private/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 sed "s/\bvirbr0\b/ovs_br0/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
 virsh undefine managementnode
-sleep 5 # Need to change this
+until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 1 ; done
 virsh create /tmp/mn.xml
 
 # Handle dnsmasq. See config files in /var/lib/libvirt/dnsmasq/
