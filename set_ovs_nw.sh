@@ -21,12 +21,14 @@ ssh mn << EOF
   echo "IPADDR=192.168.100.1" >> /etc/sysconfig/network-scripts/ifcfg-eth0
   echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
   echo "NM_CONTROLLED=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+  echo "NM_CONTROLLED=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
   chmod 755 ./mn_nw.sh
   ./mn_nw.sh
+  reboot
 EOF
 # Need to add code to make eth0 IP as static
 
-sed  '/192.168.100.1 mn/c\192.168.200.1 mn' /etc/hosts > tmp && mv -f tmp /etc/hosts
+#sed  '/192.168.100.1 mn/c\192.168.200.1 mn' /etc/hosts > tmp && mv -f tmp /etc/hosts
 virsh dumpxml managementnode > /tmp/mn.xml
 virsh shutdown managementnode
 sed "s/\bprivate\b/ovs_private/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
