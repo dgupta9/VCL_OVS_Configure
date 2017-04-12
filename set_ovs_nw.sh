@@ -29,8 +29,10 @@ virsh edit managementnode <<'END'
 :wq
 END
 #virsh shutdown managementnode
-until nc -z mn 22 > /dev/null 2>&1; echo $? | grep -m 1 "0"; do sleep 3 ; done
-ssh mn shutdown -h now
+until ssh -q mn exit; echo $? | grep -m 1 "0"; do sleep 3 ; done
+ssh mn << EOF
+  shutdown -h now
+EOF
 until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 3 ; done
 sleep 3
 virsh start managementnode
