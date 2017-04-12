@@ -36,7 +36,9 @@ virsh edit managementnode <<'END'
 :%s/private/ovs_private
 :wq
 END
-virsh destroy managementnode
+virsh shutdown managementnode
+until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 3 ; done
+sleep 3
 virsh start managementnode
 sleep 15
 
