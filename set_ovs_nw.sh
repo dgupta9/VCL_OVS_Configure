@@ -19,7 +19,6 @@ ssh mn << EOF
   chmod 755 ./mn_nw.sh
   ./mn_nw.sh
 EOF
-# Need to add code to make eth0 IP as static
 
 #sed  '/192.168.100.1 mn/c\192.168.200.1 mn' /etc/hosts > tmp && mv -f tmp /etc/hosts
 #until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "running"; do sleep 1 ; done
