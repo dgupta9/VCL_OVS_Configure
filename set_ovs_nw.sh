@@ -14,6 +14,8 @@ virsh net-autostart ovs_private
 #virsh net-autostart ovs_public
 
 scp mn_nw.sh mn:/root/
+scp mn_dhcp.sh mn:/root/
+scp /var/lib/libvirt/dnsmasq/private.* mn:/var/lib/dnsmasq/
 
 ssh mn << EOF
   chmod 755 ./mn_nw.sh
@@ -47,3 +49,9 @@ sed "s/\bvirbr0\b/ovs_br0/g" /etc/sysconfig/iptables > tmp && mv -f tmp /etc/sys
 systemctl restart iptables
 systemctl status iptables
 
+until ssh -q mn exit; echo $? | grep -m 1 "0"; do sleep 3 ; done
+ssh mn << EOF
+  chmod 755 ./mn_dhcp.sh
+  ./mn_dhcp.sh
+EOF
+#ssh mn route add default gw 192.168.200.10 eth1
