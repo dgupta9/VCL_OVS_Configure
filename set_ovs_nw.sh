@@ -51,6 +51,7 @@ systemctl status iptables
 
 until ssh -q mn exit; echo $? | grep -m 1 "0"; do sleep 3 ; done
 ssh mn << EOF
+  route add default gw 192.168.200.10 eth1
   chmod 755 ./mn_dhcp.sh
   ./mn_dhcp.sh
 EOF
