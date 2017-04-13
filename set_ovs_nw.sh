@@ -19,24 +19,19 @@ ssh mn << EOF
   chmod 755 ./mn_nw.sh
   ./mn_nw.sh
 EOF
-# Need to add code to make eth0 IP as static
 
 #sed  '/192.168.100.1 mn/c\192.168.200.1 mn' /etc/hosts > tmp && mv -f tmp /etc/hosts
 #until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "running"; do sleep 1 ; done
 until ping -c 1 mn > /dev/null 2>&1; echo $? | grep -m 1 "0"; do sleep 3 ; done
-#virsh dumpxml managementnode > /tmp/mn.xml
-#virsh destroy managementnode
-#until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 3 ; done
-#sed "s/\bprivate\b/ovs_private/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
-#sed "s/\bvirbr0\b/ovs_br0/g" /tmp/mn.xml > tmp && mv -f tmp /tmp/mn.xml
-#virsh undefine managementnode
-#sleep 5
-#virsh create /tmp/mn.xml
 virsh edit managementnode <<'END'
 :%s/private/ovs_private
 :wq
 END
-virsh shutdown managementnode
+#virsh shutdown managementnode
+until ssh -q mn exit; echo $? | grep -m 1 "0"; do sleep 3 ; done
+ssh mn << EOF
+  shutdown -h now
+EOF
 until virsh list --all | grep management | awk '{print $3}' | grep -m 1 "shut"; do sleep 3 ; done
 sleep 3
 virsh start managementnode
