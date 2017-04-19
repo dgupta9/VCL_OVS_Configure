@@ -5,6 +5,10 @@ if [ "$#" -ne 1 ] || ([ "$1" != "master" ] && [ "$1" != "slave" ]); then
     exit 1
 fi
 
+echo "**********************************************************************************"
+echo "		Add ovs bridges for ovs_private and ovs_public networks			"
+echo "**********************************************************************************"
+sleep 1
 # Add ovs private and public bridges
 ovs-vsctl add-br ovs_br0
 #ovs-vsctl add-br ovs_br1
@@ -18,6 +22,10 @@ virsh net-autostart ovs_private
 #virsh net-start ovs_public
 #virsh net-autostart ovs_public
 
+echo "**********************************************************************************"
+echo "			Connect management node to OVS bridges				"
+echo "**********************************************************************************"
+sleep 1
 if [ "$1" == "master" ]; then
     scp mn_nw.sh mn:/root/
     scp mn_dhcp.sh mn:/root/
@@ -44,7 +52,6 @@ else # If it is a slave, destroy management node
     virsh destroy managementnode
 fi
 
-# Handle dnsmasq. See config files in /var/lib/libvirt/dnsmasq/
 ps -ef | grep "dnsmasq/private" | grep -v grep | awk '{print $2}' | xargs kill
 ifconfig virbr0 0 down
 if [ "$1" == "master" ]; then
@@ -59,9 +66,14 @@ systemctl restart iptables
 systemctl status iptables
 
 if [ "$1" == "master" ]; then
+    echo "**********************************************************************************"
+    echo "			Starting DHCP server ovs_* networks				"
+    echo "**********************************************************************************"
+    sleep 1
     until ssh -q mn exit; echo $? | grep -m 1 "0"; do sleep 3 ; done
     ssh mn << EOF
       route add default gw 192.168.200.10 eth1
       chmod 755 ./mn_dhcp.sh
       ./mn_dhcp.sh
 EOF
+fi
