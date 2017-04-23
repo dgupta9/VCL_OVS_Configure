@@ -58,6 +58,7 @@ if [ "$1" == "master" ]; then
     ifconfig ovs_br0 192.168.100.10 up
 else
     ifconfig ovs_br0 192.168.100.11 up
+    sed "s/\b192.168.100.10\b/192.168.100.11/g" /etc/ssh/hostonly_sshd_config > tmp && mv -f tmp /etc/ssh/hostonly_sshd_config
 fi
 systemctl restart hostonly_sshd
 systemctl status hostonly_sshd
