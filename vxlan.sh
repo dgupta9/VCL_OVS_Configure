@@ -51,7 +51,3 @@ do
          echo "Tunneling from $my_private_IP to ${ips_private[$i]}"
     fi
 done
-
-# Increase MTU for physical interfaces to accomodate VXLAN
-echo "MTU=1600" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-ifdown eth0 && ifup eth0
