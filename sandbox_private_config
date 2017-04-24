@@ -1,0 +1,7 @@
+# DO NOT CHANGE THE FORMAT OF THIS FILE
+
+# Add required IP addresses in the format:
+# <master/slave>=<IP address in dotted decimal format>
+
+master=10.25.5.108
+slave=10.25.5.47
