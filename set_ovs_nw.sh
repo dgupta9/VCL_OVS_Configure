@@ -59,6 +59,8 @@ if [ "$1" == "master" ]; then
 else
     ifconfig ovs_br0 192.168.100.11 up
     sed "s/\b192.168.100.10\b/192.168.100.11/g" /etc/ssh/hostonly_sshd_config > tmp && mv -f tmp /etc/ssh/hostonly_sshd_config
+    iptables -t nat -D PREROUTING -s 192.168.100.1/32 -d 192.168.100.10/32 -i virbr0 -p tcp -m tcp --dport 22 -j REDIRECT --to-ports 24
+    iptables -t nat -I PREROUTING 5 -s 192.168.100.1/32 -d 192.168.100.11/32 -i virbr0 -p tcp -m tcp --dport 22 -j REDIRECT --to-ports 24
 fi
 systemctl restart hostonly_sshd
 systemctl status hostonly_sshd
