@@ -31,14 +31,8 @@ get_IP_array() {
     done < "$2"
 }
 
-
-if [ "$1" == "master" ]; then # Look for the config files in the CWD if it is master
-     get_IP_array "private" "$sandbox_private"
-     get_IP_array "public" "$sandbox_public"
-else # Look for the config files in the /etc directory which is copied from master
-     get_IP_array "private" "/etc/sandbox_private_config"
-     get_IP_array "public" "/etc/sandbox_public_config"
-fi
+get_IP_array "private" "$sandbox_private"
+get_IP_array "public" "$sandbox_public"
 
 for ((i=0; i<${#ips_public[@]}; i++));
 do
@@ -48,14 +42,6 @@ do
     ips_public[$i]=${ip_public// } # Remove trailing characters if any
     if [ "${ips_private[$i]}" == "$my_private_IP" ]; then
          sandbox_no="$i"
-    fi
-    if [ "$1" == "master" ]; then
-         echo "**********************************************************************************"
-         echo "                  Copy config files to all the sandboxes                          "
-         echo "**********************************************************************************"
-         sleep 1
-         scp "$sandbox_private" "${ips_public[$i]}":/etc/
-         scp "$sandbox_public" "${ips_public[$i]}":/etc/
     fi
 done
 
