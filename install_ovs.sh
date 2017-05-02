@@ -9,6 +9,8 @@ echo "**************************************************************************
 sleep 1
 # Install pre-requisites
 yum -y install make gcc openssl-devel autoconf automake rpm-build redhat-rpm-config python-devel openssl-devel kernel-devel kernel-debug-devel libtool wget > /dev/null
+echo "Installed pre-requisite packages"
+sleep 1
 
 # Build rpm
 mkdir -p ~/rpmbuild/SOURCES

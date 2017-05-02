@@ -12,6 +12,7 @@ ps -ef | grep "dnsmasq" | grep -v grep | awk '{print $2}' | xargs kill
 sed "s/\bvirbr1\b/eth1/g" /var/lib/dnsmasq/nat.conf > tmp && mv -f tmp /var/lib/dnsmasq/nat.conf
 sed "s/\b\/libvirt\/\b/\//g" /var/lib/dnsmasq/nat.conf > tmp && mv -f tmp /var/lib/dnsmasq/nat.conf
 sed "s/\b\/network\/\b/\//g" /var/lib/dnsmasq/nat.conf > tmp && mv -f tmp /var/lib/dnsmasq/nat.conf
+echo "dhcp-option=3,192.168.200.10" >> /var/lib/dnsmasq/nat.conf # Default Gateway
 /sbin/dnsmasq --conf-file=/var/lib/dnsmasq/nat.conf --leasefile-ro
 
 # Use the same RSA private key while logging into any sandbox
