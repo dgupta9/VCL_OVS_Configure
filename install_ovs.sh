@@ -8,7 +8,7 @@ echo "				Install openvswitch package				"
 echo "**********************************************************************************"
 sleep 1
 # Install pre-requisites
-yum -y install make gcc openssl-devel autoconf automake rpm-build redhat-rpm-config python-devel openssl-devel kernel-devel kernel-debug-devel libtool wget
+yum -y install make gcc openssl-devel autoconf automake rpm-build redhat-rpm-config python-devel openssl-devel kernel-devel kernel-debug-devel libtool wget > /dev/null
 
 # Build rpm
 mkdir -p ~/rpmbuild/SOURCES
