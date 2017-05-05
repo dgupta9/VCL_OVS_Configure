@@ -31,6 +31,7 @@ sleep 1
 if [ "$1" == "master" ]; then
     scp mn_nw.sh mn:/root/
     scp mn_dhcp.sh mn:/root/
+    scp install_controller.sh mn:/root/
     scp /var/lib/libvirt/dnsmasq/private.* mn:/var/lib/dnsmasq/
     scp /var/lib/libvirt/dnsmasq/nat.* mn:/var/lib/dnsmasq/
     ssh mn << EOF
