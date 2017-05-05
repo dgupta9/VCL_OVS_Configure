@@ -1,7 +1,5 @@
 #! /bin/bash
 
-scp /root/install_controller.sh vm1-1:/root/
-
 sed "s/\bBOOTPROTO=dhcp\b/BOOTPROTO=none/g" /etc/sysconfig/network-scripts/ifcfg-eth0 > tmp && mv -f tmp /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "DEVICE=eth0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "IPADDR=192.168.100.1" >> /etc/sysconfig/network-scripts/ifcfg-eth0
