@@ -46,6 +46,9 @@ Cleans any files created while running the script
 Once the script is run, on a browser type, "http://<master_sandbox_public_ip>". You will be redirected to the http server running on mn. Here follow these steps:
 
 Edit VM host profile – change network type from private-> ovs_private and nat-> ovs_public.
+
 Add a new computer (vmhost2) and add VMs to this.
+
 Configure NAT host for VMs as vmhost1.
+
 Reserve VMs and connect to them via SSH.
